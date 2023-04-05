@@ -9,12 +9,14 @@ public class ToggleController : MonoBehaviour
     private int maxSelected = 4;
     private int selectedCount = 0;
 
-    public void OnToggleSelected(bool isSelected)
+    public void OnToggleSelected(int num)
+
     {
-        if (isSelected)
+        Debug.Log(toggles[num].isOn);
+        if (toggles[num].isOn)
         {
             selectedCount++;
-
+            
             if (selectedCount > maxSelected)
             {
                 // Si on a sélectionné plus de toogles que le maximum autorisé, on déselectionne le dernier toogle sélectionné
