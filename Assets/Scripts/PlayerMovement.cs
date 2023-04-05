@@ -9,10 +9,14 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     Vector2 movement;
 
+    public static PlayerMovement instance;
+
 
     // Update is called once per frame
     void Update()
     {
+        instance = this;
+
         movement.x=Input.GetAxisRaw("Horizontal");
         movement.y=Input.GetAxisRaw("Vertical");
         
