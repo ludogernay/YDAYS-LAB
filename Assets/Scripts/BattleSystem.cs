@@ -5,13 +5,13 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public enum BattleState { START, PLAYERTURN, TRAITEMENT, ENEMYTURN, WON, LOST }
+public enum BattleState { START, PLAYERTURN, TRAITEMENT, ENEMYTURN, WON, LOST } //définis les états de la bataille
 
 public class BattleSystem : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
-    public SO1 so;
+
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
 
@@ -26,30 +26,27 @@ public class BattleSystem : MonoBehaviour
     public BattleState state;
     public int Tour = 0;
     public int capacity = 0;
-
     public int attackfail = 0;
     public bool isDead = false;
-
     
     // Start is called before the first frame update
     void Start()
     {
-
         state = BattleState.START;
         StartCoroutine(SetupBattle());
     }
 
     IEnumerator SetupBattle()
     {
-        GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
+        GameObject playerGO = Instantiate(playerPrefab, playerBattleStation); // instantie le joueur
         playerUnit = playerGO.GetComponent<Unit>();
 
-        GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
+        GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation); // instantie l'ennemi
         enemyUnit = enemyGO.GetComponent<Unit>();
 
         dialogueText.text = "Une " + enemyUnit.unitName + " sauvage approche...";
 
-        playerHUD.SetHUD(playerUnit);
+        playerHUD.SetHUD(playerUnit); //initialise les hud
         enemyHUD.SetHUD(enemyUnit);
 
         yield return new WaitForSeconds(2f);
@@ -64,44 +61,40 @@ public class BattleSystem : MonoBehaviour
         Tour++;
     }
 
-        public void OnAttackButton()
+    public void OnAttackButton() //permet de faire une attaque normale
     {
         if (state != BattleState.PLAYERTURN){
             return;
         }
         capacity = 1;
         StartCoroutine(PlayerAttack());
-        
     }
 
-    public void OnAPAttackButton()
+    public void OnAPAttackButton()// permet de faire une attaque perce armure
     {
         if (state != BattleState.PLAYERTURN){
             return;
         }
         capacity = 2;
         StartCoroutine(PlayerAttack());
-        
     }
 
-    public void OnFireAttackButton()
+    public void OnFireAttackButton() // fait une attaque de feu
     {
         if (state != BattleState.PLAYERTURN){
             return;
         }
         capacity = 3;
         StartCoroutine(PlayerAttack());
-        
     }
 
-    public void OnHealButton()
+    public void OnHealButton() // permet de se soigner
     {
         if (state != BattleState.PLAYERTURN)
             return;
         capacity = 4;
         StartCoroutine(PlayerAttack()); 
     }
-
     public void OnParalysisButton() // permet de paralyser
     {
         if (state != BattleState.PLAYERTURN)
@@ -109,107 +102,82 @@ public class BattleSystem : MonoBehaviour
         capacity = 5;
         StartCoroutine(PlayerAttack()); 
     }
+    public void OnDebuffButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+            return;
+        capacity = 6;
+        StartCoroutine(PlayerAttack()); 
+    }
+    public void OnBuffButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+            return;
+        capacity = 7;
+        StartCoroutine(PlayerAttack()); 
+    }
+    public void OnShieldButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+            return;
+        capacity = 8;
+        StartCoroutine(PlayerAttack()); 
+    }
+
+
+
 
     IEnumerator PlayerAttack()
     {
-        enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit, enemyUnit.onFire);
-        Debug.Log("Debut du tour Joueur");
         attackfail = Random.Range(0, 100);//initialise une valeur entre 0 et 100 
         if (attackfail <= 10){ // fait échouer l'attaque
             dialogueText.text = "Vous avez raté !";
-            isDead = enemyUnit.TakeDamage(playerUnit.damage, 6, Tour, playerUnit, enemyUnit, state);
+            isDead = enemyUnit.TakeDamage(playerUnit.damage, 9, Tour, playerUnit, enemyUnit, state);
         }
         else if (attackfail > 10 && attackfail < 90){ // fait réussir l'attaque normalement
             isDead = enemyUnit.TakeDamage(playerUnit.damage, capacity, Tour, playerUnit, enemyUnit, state);
             
-            if (playerUnit.Paralysis){ // vérifie si le joueur est paralysé
+            if (playerUnit.Paralysis == true){ // vérifie si le joueur est paralysé
                 if (playerUnit.attack == false) // vérifie si le joueur a pu attaqué
                     dialogueText.text = "Vous êtes paralysée !";
-                else{
-                    enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
-                    if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
-                        playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
-                        dialogueText.text = "Vous vous êtes soigné.";
-                    }else if (capacity == 3) {
-                        dialogueText.text = "Vous avez brulé l'ennemi";
-                    }else{
-                        dialogueText.text = "Vous avez attaqué !";
-                    }
-                }
+                else 
+                    dialogueText.text = "Vous êtes paralysée mais avez réussi a attaqué !";
+            }
+
+            enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit);//met a jour l'hud de l'enemie
+            if (capacity == 4 || capacity == 7){//permet de mettre a jour l'hud du joueur quand il se soigne
+                playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit);
+                dialogueText.text = "Vous vous êtes soigné.";
             }else{
-                enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
-                if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
-                    playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
-                    dialogueText.text = "Vous vous êtes  soigné.";
-                }else if (capacity == 3) {
-                    dialogueText.text = "Vous avez  brulé l'ennemi";
-                }else{
-                    dialogueText.text = "Vous avez attaqué !";
+                dialogueText.text = "L'attaque a réussi !";
             }
         }
-
-    }
-
-    else if (attackfail >= 90){ // fait réussir l'attaque de manière critique (double les dégats)
-        isDead = enemyUnit.TakeDamage((playerUnit.damage * 2), capacity, Tour, playerUnit, enemyUnit, state);
+        else if (attackfail >= 90){ // fait réussir l'attaque de manière critique (double les dégats)
+            isDead = enemyUnit.TakeDamage((playerUnit.damage * 2), capacity, Tour, playerUnit, enemyUnit, state);
         
-        if (playerUnit.Paralysis){// vérifie si le joueur est paralysé
-            if (playerUnit.attack == false)// vérifie si le joueur a pu attaqué
-                dialogueText.text = "Vous êtes paralysée !";
-            else{
-                enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
-                if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
-                    playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
-                dialogueText.text = "Vous vous êtes grandement soigné.";
-                }else if (capacity == 3) {
-                    dialogueText.text = "Vous avez grandement brulé l'ennemi";
-                }else{
-                    dialogueText.text = "Coup critique !";
-                }
-        }
-        }else{
-            enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
-                if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
-                    playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
-                dialogueText.text = "Vous vous êtes grandement soigné.";
-                }else if (capacity == 3) {
-                    dialogueText.text = "Vous avez grandement brulé l'ennemi";
-                }else{
-                    dialogueText.text = "Coup critique !";
+            if (playerUnit.Paralysis == true){// vérifie si le joueur est paralysé
+                if (playerUnit.attack == false)// vérifie si le joueur a pu attaqué
+                    dialogueText.text = "Vous êtes paralysée !";
+                else 
+                    dialogueText.text = "Vous êtes paralysée mais avez réussi a faire une attaque critique !";
             }
-        }
-    }
-        state = BattleState.TRAITEMENT;
-        yield return new WaitForSeconds(1f);
 
-        bool isDeadFire = false;
-        if (playerUnit.onFire == true && isDead == false) { //Mettre les ticks de l'attaque puis du feu
-            yield return new WaitForSeconds(1f);
-            isDeadFire = playerUnit.IsOnFire(Tour);
-            playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);
-            dialogueText.text = "Vous êtes brulé !";
-        }
-        
+            enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit);//met a jour l'hud de l'ennemi
+            if (capacity == 4 || capacity == 7){//permet de mettre a jour l'hud du joueur quand il se soigne
+                playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit);
+                dialogueText.text = "Vous vous êtes grandement soigné.";
+            }else{
+                dialogueText.text = "Coup critique !";
+            }
+        }  
+        state = BattleState.TRAITEMENT;//sert a empecher le joueur d'utiliser les boutons
 
-        Debug.Log("Tour" + Tour);
+        yield return new WaitForSeconds(2f);//permet d'attendre 2sec
 
-        if (enemyUnit.Paralysis == true){
-            enemyUnit.resetParalysis(Tour);
-            enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);
-        }
-
-        yield return new WaitForSeconds(2f);
-
-
-        if(isDead)
+        if(isDead)// permet de tester si l'ennemi est mort
         {
             state = BattleState.WON;
             StartCoroutine(EndBattle());
-        }
-        else if (isDeadFire){
-            state = BattleState.LOST;
-            StartCoroutine(EndBattle());
-        
         }else
         {
             state = BattleState.ENEMYTURN;
@@ -219,34 +187,26 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);
-        Debug.Log("Debut du tour de l'ennemi ");
-        int RandomCapacity = Random.Range(1, 6);
-        Debug.Log("CapacityRandom ENEMY : "+RandomCapacity);
-
         attackfail = Random.Range(0, 100);//initialise une valeur entre 0 et 100 
         if (attackfail <= 10){ // fait échouer l'attaque
             dialogueText.text = enemyUnit.unitName + " a raté son attaque !";
-            isDead = playerUnit.TakeDamage(enemyUnit.damage,6, Tour, playerUnit, enemyUnit, state);
+            isDead = playerUnit.TakeDamage(enemyUnit.damage,9, Tour, playerUnit, enemyUnit, state);
         }
         else if (attackfail > 10 && attackfail < 90){// fait réussir l'attaque normalement
             dialogueText.text = enemyUnit.unitName + " attaque !";
 
-            if (enemyUnit.Paralysis){ // vérifie si l'ennemi est paralysé
+            if (enemyUnit.Paralysis == true){ // vérifie si l'ennemi est paralysé
                 if (enemyUnit.attack == false)// vérifie si l'ennemi a pu attaqué
                     dialogueText.text = enemyUnit.unitName + " est paralysée !";
                 else 
                     dialogueText.text = enemyUnit.unitName + " est paralysée mais avez réussi a attaqué !";
             }
-            else if (RandomCapacity == 4){
-            dialogueText.text = enemyUnit.unitName + " s'est soigné.";
-        }
 
             yield return new WaitForSeconds(1f);
 
-            isDead = playerUnit.TakeDamage(enemyUnit.damage,RandomCapacity, Tour, playerUnit, enemyUnit, state);
+            isDead = playerUnit.TakeDamage(enemyUnit.damage,1, Tour, playerUnit, enemyUnit, state);
 
-            playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);//met a jour l'hud du joueur
+            playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit);//met a jour l'hud du joueur
         }
         else if (attackfail >= 90){// fait réussir l'attaque de manière critique (double les dégats)
                 dialogueText.text = enemyUnit.unitName + " a fait un coup critique !";
@@ -260,31 +220,13 @@ public class BattleSystem : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
 
-            isDead = playerUnit.TakeDamage((enemyUnit.damage * 2),RandomCapacity, Tour, playerUnit, enemyUnit, state);
+            isDead = playerUnit.TakeDamage((enemyUnit.damage * 2),1, Tour, playerUnit, enemyUnit, state);
 
-            playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);//met a jour l'hud du joueur
+            playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit);//met a jour l'hud du joueur
         }
-
         yield return new WaitForSeconds(1f);
-
-        bool isDeadFire = false;
-        if (enemyUnit.onFire == true && isDead == false) { //Mettre les ticks de l'attaque puis du feu
-            yield return new WaitForSeconds(1f);
-            isDeadFire = enemyUnit.IsOnFire(Tour);
-            enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);
-            dialogueText.text = enemyUnit.unitName + " est brulé";
-        }
-
-        
         Tour++;
-        
-        if (playerUnit.Paralysis == true){
-            playerUnit.resetParalysis(Tour);
-            playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);
-        }
-        
-
-        if(isDead)
+        if(isDead)// permet de tester si le joueur est mort
         {
             state = BattleState.LOST;
             StartCoroutine(EndBattle());
@@ -297,14 +239,13 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EndBattle()
     {
-        if(state == BattleState.WON)
+        if(state == BattleState.WON)//si le joueur gagne
         {
             dialogueText.text = "Vous avez gagné la bataille !";
-            so.win=true;
             yield return new WaitForSeconds(3f);
             SceneManager.LoadScene("Move");
             
-        } else if (state == BattleState.LOST)
+        } else if (state == BattleState.LOST)// si l'ennemi gagne
         {
             dialogueText.text = "Vous avez perdu.";
             yield return new WaitForSeconds(3f);
@@ -312,4 +253,3 @@ public class BattleSystem : MonoBehaviour
         }
     }
 }
-
