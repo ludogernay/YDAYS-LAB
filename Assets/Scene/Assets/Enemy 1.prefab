@@ -49,9 +49,13 @@ MonoBehaviour:
   unitLevel: 2
   damage: 30
   onFire: 0
+  Paralysis: 0
+  getturnp: 0
+  attack: 1
   maxHP: 30
   currentHP: 30
   armor: 20
+  getturnf: 0
 --- !u!1 &1168245038657761369
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +67,7 @@ GameObject:
   - component: {fileID: 180634394409126361}
   - component: {fileID: 8316425002834041462}
   m_Layer: 0
-  m_Name: Dwayne
+  m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

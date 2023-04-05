@@ -11,7 +11,7 @@ public class BattleSystem : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
-    public SO1 so;
+
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
 
@@ -30,7 +30,6 @@ public class BattleSystem : MonoBehaviour
     public int attackfail = 0;
     public bool isDead = false;
 
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -64,7 +63,7 @@ public class BattleSystem : MonoBehaviour
         Tour++;
     }
 
-        public void OnAttackButton()
+    public void OnAttackButton()
     {
         if (state != BattleState.PLAYERTURN){
             return;
@@ -110,76 +109,72 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(PlayerAttack()); 
     }
 
+    IEnumerator takeRed(GameObject unit) {
+        Transform spriteTransform = unit.transform.Find("sprite");
+        SpriteRenderer spriteSpriteRenderer = spriteTransform.GetComponent<SpriteRenderer>();
+
+        // Debug.Log(spriteSpriteRenderer);
+        // Desssssssssssbug.Log("red");
+
+        yield return new WaitForSeconds(2f);
+        spriteSpriteRenderer.color = new Color(1f, 0f, 0f, 1f);
+        yield return new WaitForSeconds(2f);
+        spriteSpriteRenderer.color = Color.white;
+    }
+
     IEnumerator PlayerAttack()
     {
-        enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit, enemyUnit.onFire);
         Debug.Log("Debut du tour Joueur");
+
+        StartCoroutine(takeRed(playerPrefab));
+
+        string dialogue = "";
+
         attackfail = Random.Range(0, 100);//initialise une valeur entre 0 et 100 
         if (attackfail <= 10){ // fait échouer l'attaque
-            dialogueText.text = "Vous avez raté !";
+            dialogue = "Vous avez raté !";
             isDead = enemyUnit.TakeDamage(playerUnit.damage, 6, Tour, playerUnit, enemyUnit, state);
         }
+
         else if (attackfail > 10 && attackfail < 90){ // fait réussir l'attaque normalement
-            isDead = enemyUnit.TakeDamage(playerUnit.damage, capacity, Tour, playerUnit, enemyUnit, state);
             
-            if (playerUnit.Paralysis){ // vérifie si le joueur est paralysé
-                if (playerUnit.attack == false) // vérifie si le joueur a pu attaqué
-                    dialogueText.text = "Vous êtes paralysée !";
-                else{
-                    enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
-                    if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
-                        playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
-                        dialogueText.text = "Vous vous êtes soigné.";
-                    }else if (capacity == 3) {
-                        dialogueText.text = "Vous avez brulé l'ennemi";
-                    }else{
-                        dialogueText.text = "Vous avez attaqué !";
-                    }
-                }
+            if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
+                dialogue = "Vous vous êtes soigné.";
+            }else if (capacity == 3) {
+                dialogue = "Vous avez brulé l'ennemi";
             }else{
-                enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
-                if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
-                    playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
-                    dialogueText.text = "Vous vous êtes  soigné.";
-                }else if (capacity == 3) {
-                    dialogueText.text = "Vous avez  brulé l'ennemi";
-                }else{
-                    dialogueText.text = "Vous avez attaqué !";
+                dialogue = "Vous avez attaqué !";
             }
+            isDead = enemyUnit.TakeDamage(playerUnit.damage, capacity, Tour, playerUnit, enemyUnit, state);
         }
 
-    }
+        else if (attackfail >= 90){ // fait réussir l'attaque de manière critique (double les dégats)
+            if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
+                dialogue = "Vous vous êtes grandement soigné.";
+            }else if (capacity == 3) {
+                dialogue = "Vous avez grandement brulé l'ennemi";
+            }else{
+                dialogue = "Coup critique !";
+            }
+            isDead = enemyUnit.TakeDamage((playerUnit.damage * 2), capacity, Tour, playerUnit, enemyUnit, state);
+        }
+        state = BattleState.TRAITEMENT;
 
-    else if (attackfail >= 90){ // fait réussir l'attaque de manière critique (double les dégats)
-        isDead = enemyUnit.TakeDamage((playerUnit.damage * 2), capacity, Tour, playerUnit, enemyUnit, state);
-        
-        if (playerUnit.Paralysis){// vérifie si le joueur est paralysé
-            if (playerUnit.attack == false)// vérifie si le joueur a pu attaqué
+        enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
+        playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
+
+        if (playerUnit.Paralysis == true){ // vérifie si l'ennemi est paralysé
+            if (playerUnit.attack == false)// vérifie si l'ennemi a pu attaqué
                 dialogueText.text = "Vous êtes paralysée !";
             else{
-                enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
-                if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
-                    playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
-                dialogueText.text = "Vous vous êtes grandement soigné.";
-                }else if (capacity == 3) {
-                    dialogueText.text = "Vous avez grandement brulé l'ennemi";
-                }else{
-                    dialogueText.text = "Coup critique !";
-                }
-        }
-        }else{
-            enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
-                if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
-                    playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
-                dialogueText.text = "Vous vous êtes grandement soigné.";
-                }else if (capacity == 3) {
-                    dialogueText.text = "Vous avez grandement brulé l'ennemi";
-                }else{
-                    dialogueText.text = "Coup critique !";
+                dialogueText.text = "Vous êtes paralysée mais vous avez réussi à attaqué !";
+                yield return new WaitForSeconds(1f);
+                dialogueText.text = dialogue;
             }
+        }else{
+            dialogueText.text = dialogue;
         }
-    }
-        state = BattleState.TRAITEMENT;
+
         yield return new WaitForSeconds(1f);
 
         bool isDeadFire = false;
@@ -189,17 +184,15 @@ public class BattleSystem : MonoBehaviour
             playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);
             dialogueText.text = "Vous êtes brulé !";
         }
-        
 
         Debug.Log("Tour" + Tour);
 
         if (enemyUnit.Paralysis == true){
-            enemyUnit.resetParalysis(Tour);
+            enemyUnit.resetParalysis(Tour+1);
             enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);
         }
 
         yield return new WaitForSeconds(2f);
-
 
         if(isDead)
         {
@@ -219,51 +212,48 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);
-        Debug.Log("Debut du tour de l'ennemi ");
+        Debug.Log("---Debut du tour de l'ennemi---");
+
+        // StartCoroutine(takeRed(enemyPrefab));
+
+        string dialogue = "";
         int RandomCapacity = Random.Range(1, 6);
         Debug.Log("CapacityRandom ENEMY : "+RandomCapacity);
 
         attackfail = Random.Range(0, 100);//initialise une valeur entre 0 et 100 
         if (attackfail <= 10){ // fait échouer l'attaque
-            dialogueText.text = enemyUnit.unitName + " a raté son attaque !";
+            dialogue = enemyUnit.unitName + " a raté son attaque !";
             isDead = playerUnit.TakeDamage(enemyUnit.damage,6, Tour, playerUnit, enemyUnit, state);
         }
         else if (attackfail > 10 && attackfail < 90){// fait réussir l'attaque normalement
-            dialogueText.text = enemyUnit.unitName + " attaque !";
+            dialogue = enemyUnit.unitName + " attaque !";
 
-            if (enemyUnit.Paralysis){ // vérifie si l'ennemi est paralysé
-                if (enemyUnit.attack == false)// vérifie si l'ennemi a pu attaqué
-                    dialogueText.text = enemyUnit.unitName + " est paralysée !";
-                else 
-                    dialogueText.text = enemyUnit.unitName + " est paralysée mais avez réussi a attaqué !";
+            if (RandomCapacity == 4){
+            dialogue = enemyUnit.unitName + " s'est soigné.";
             }
-            else if (RandomCapacity == 4){
-            dialogueText.text = enemyUnit.unitName + " s'est soigné.";
-        }
-
-            yield return new WaitForSeconds(1f);
 
             isDead = playerUnit.TakeDamage(enemyUnit.damage,RandomCapacity, Tour, playerUnit, enemyUnit, state);
-
-            playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);//met a jour l'hud du joueur
         }
         else if (attackfail >= 90){// fait réussir l'attaque de manière critique (double les dégats)
-                dialogueText.text = enemyUnit.unitName + " a fait un coup critique !";
-
-            if (enemyUnit.Paralysis == true){ // vérifie si l'ennemi est paralysé
-                if (enemyUnit.attack == false)// vérifie si l'ennemi a pu attaqué
-                    dialogueText.text = enemyUnit.unitName + " est paralysée !";
-                else 
-                    dialogueText.text = enemyUnit.unitName + " est paralysée mais avez réussi a faire un coup critique !";
-            }
-
-            yield return new WaitForSeconds(1f);
+            dialogue = enemyUnit.unitName + " a fait un coup critique !";
 
             isDead = playerUnit.TakeDamage((enemyUnit.damage * 2),RandomCapacity, Tour, playerUnit, enemyUnit, state);
-
-            playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);//met a jour l'hud du joueur
         }
+
+        if (enemyUnit.Paralysis == true){ // vérifie si l'ennemi est paralysé
+            if (enemyUnit.attack == false)// vérifie si l'ennemi a pu attaqué
+                dialogueText.text = enemyUnit.unitName + " est paralysée !";
+            else{
+                dialogueText.text = enemyUnit.unitName + " est paralysée mais a réussi à attaqué !";
+                yield return new WaitForSeconds(1f);
+                dialogueText.text = dialogue;
+            }
+        }else{
+            dialogueText.text = dialogue;
+        }
+
+        enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
+        playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
 
         yield return new WaitForSeconds(1f);
 
@@ -275,7 +265,7 @@ public class BattleSystem : MonoBehaviour
             dialogueText.text = enemyUnit.unitName + " est brulé";
         }
 
-        
+        yield return new WaitForSeconds(1f);
         Tour++;
         
         if (playerUnit.Paralysis == true){
@@ -300,7 +290,6 @@ public class BattleSystem : MonoBehaviour
         if(state == BattleState.WON)
         {
             dialogueText.text = "Vous avez gagné la bataille !";
-            so.win=true;
             yield return new WaitForSeconds(3f);
             SceneManager.LoadScene("Move");
             
