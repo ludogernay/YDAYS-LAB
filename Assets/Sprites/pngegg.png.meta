@@ -20,7 +20,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -44,7 +44,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -808,39 +808,39 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pngegg_2: -945090814
-      pngegg_20: 1219204665
-      pngegg_9: 318016414
-      pngegg_15: -605517839
-      pngegg_6: -739581696
-      pngegg_26: 1890883234
-      pngegg_31: -1533442031
-      pngegg_5: 1694175469
-      pngegg_25: -281883234
-      pngegg_29: 340949353
-      pngegg_27: -489862851
-      pngegg_16: -1333898594
-      pngegg_18: 938509057
-      pngegg_4: 131782398
-      pngegg_23: 802389812
-      pngegg_3: -1834896395
-      pngegg_11: -312207390
-      pngegg_13: -1323659942
-      pngegg_22: -1526039162
-      pngegg_19: 1632245712
-      pngegg_14: -624990162
-      pngegg_7: 1749034706
-      pngegg_8: -132425670
-      pngegg_17: 49306183
-      pngegg_24: 128115038
-      pngegg_12: 1112973940
+      pngegg_0: -1532379115
       pngegg_1: 1928490513
       pngegg_10: 803021502
+      pngegg_11: -312207390
+      pngegg_12: 1112973940
+      pngegg_13: -1323659942
+      pngegg_14: -624990162
+      pngegg_15: -605517839
+      pngegg_16: -1333898594
+      pngegg_17: 49306183
+      pngegg_18: 938509057
+      pngegg_19: 1632245712
+      pngegg_2: -945090814
+      pngegg_20: 1219204665
       pngegg_21: -1516841504
-      pngegg_32: -1204756922
+      pngegg_22: -1526039162
+      pngegg_23: 802389812
+      pngegg_24: 128115038
+      pngegg_25: -281883234
+      pngegg_26: 1890883234
+      pngegg_27: -489862851
       pngegg_28: 1899977128
-      pngegg_0: -1532379115
+      pngegg_29: 340949353
+      pngegg_3: -1834896395
       pngegg_30: 1116713553
+      pngegg_31: -1533442031
+      pngegg_32: -1204756922
+      pngegg_4: 131782398
+      pngegg_5: 1694175469
+      pngegg_6: -739581696
+      pngegg_7: 1749034706
+      pngegg_8: -132425670
+      pngegg_9: 318016414
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

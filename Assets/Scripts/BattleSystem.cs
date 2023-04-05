@@ -14,7 +14,6 @@ public class BattleSystem : MonoBehaviour
     public SO1 so;
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
-
     Unit playerUnit;
     Unit enemyUnit;
 
@@ -34,7 +33,6 @@ public class BattleSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         state = BattleState.START;
         StartCoroutine(SetupBattle());
     }
@@ -112,6 +110,9 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
+        GameObject obj = Instantiate(enemyPrefab);
+        Transform objTransform = obj.transform.Find("Dwayne");
+        objTransform.GetComponent<SpriteRenderer>().material.color = Color.red;
         enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit, enemyUnit.onFire);
         Debug.Log("Debut du tour Joueur");
         attackfail = Random.Range(0, 100);//initialise une valeur entre 0 et 100 
@@ -223,7 +224,6 @@ public class BattleSystem : MonoBehaviour
         Debug.Log("Debut du tour de l'ennemi ");
         int RandomCapacity = Random.Range(1, 6);
         Debug.Log("CapacityRandom ENEMY : "+RandomCapacity);
-
         attackfail = Random.Range(0, 100);//initialise une valeur entre 0 et 100 
         if (attackfail <= 10){ // fait échouer l'attaque
             dialogueText.text = enemyUnit.unitName + " a raté son attaque !";
@@ -297,6 +297,11 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EndBattle()
     {
+        Transform childTransform =enemyPrefab.transform.Find("Dwayne");
+        SpriteRenderer spriteRenderer = childTransform.GetComponent<SpriteRenderer>();
+        // change la couleur de spriterenderer
+        spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
+
         if(state == BattleState.WON)
         {
             dialogueText.text = "Vous avez gagné la bataille !";
