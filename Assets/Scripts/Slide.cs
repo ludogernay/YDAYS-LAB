@@ -13,7 +13,7 @@ public class Slide : MonoBehaviour
         if(so.win){
             Vector2 direction = new Vector2(0,1f);
             transform.Translate(direction * Time.fixedDeltaTime);
-            if (transform.position.y>=6f){
+            if (transform.position.y>=4.4f){
                 enabled = false;
             }
         }
