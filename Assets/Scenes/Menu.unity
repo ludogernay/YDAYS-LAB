@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0901c009ccb77a241a51bc4426bc5e7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transition: {fileID: 1706954712}
+  transition: {fileID: 1113670583}
   transitionTime: 1
 --- !u!1 &318936266
 GameObject:
@@ -1134,9 +1134,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4121372906649160576, guid: c66d48963a6f93d4994043b7bbe50a14, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7941828876491500229, guid: c66d48963a6f93d4994043b7bbe50a14, type: 3}
       propertyPath: m_Name
       value: LevelLoader
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941828876491500229, guid: c66d48963a6f93d4994043b7bbe50a14, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7941828876491500230, guid: c66d48963a6f93d4994043b7bbe50a14, type: 3}
       propertyPath: m_RootOrder
@@ -1184,6 +1192,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c66d48963a6f93d4994043b7bbe50a14, type: 3}
+--- !u!95 &1113670583 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1583606067891933485, guid: c66d48963a6f93d4994043b7bbe50a14, type: 3}
+  m_PrefabInstance: {fileID: 1113670582}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1115411447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1848,11 +1861,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1706954712 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 7941828877390768013, guid: c66d48963a6f93d4994043b7bbe50a14, type: 3}
-  m_PrefabInstance: {fileID: 1113670582}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2070247836
 GameObject:
   m_ObjectHideFlags: 0
