@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class NextScene : MonoBehaviour
 {
-
+    public SO1 so;
     public Animator transition; //récupère l'animator choisi
     
 
@@ -15,9 +15,9 @@ public class NextScene : MonoBehaviour
 
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex+1));
     }
-    public void NxtSceneMove(){ // charge la scène "Move"
-
-    SceneManager.LoadScene("Move");
+    public void NxtSceneNG(){ // charge la scène "Move"
+        so.win = false;
+        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex+1));;
     }
 
 
