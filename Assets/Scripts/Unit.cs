@@ -15,15 +15,11 @@ public class Unit : MonoBehaviour
     public bool attack = true ;
     public int maxHP;
     public int currentHP;
-
     public int armor;
     public int getturnf = 0;
 
     public bool TakeDamage(int dmg, int capacity, int Tour, Unit playerUnit, Unit enemyUnit , BattleState state )
     {
-        Transform trans = enemyUnit.transform.Find("Dwayne");
-        SpriteRenderer spriterenderer = trans.GetComponent<SpriteRenderer>();
-        spriterenderer.sprite = Resources.Load<Sprite>("../Assets/Sprites/enemy1_pngegg_1_13_red.png");
         int fail = 0;
         if (playerUnit.Paralysis == true || enemyUnit.Paralysis){
             if (state == BattleState.PLAYERTURN && playerUnit.Paralysis){
@@ -161,9 +157,5 @@ public class Unit : MonoBehaviour
     public void resetParalysis(int Tour){
         if (getturnp+5 <= Tour)
             Paralysis = false;
-    }
-    IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(1f);
     }
 }

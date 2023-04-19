@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7423349316340754237}
   - component: {fileID: 8296390457284826733}
+  - component: {fileID: 6849048536324461756}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -84,6 +85,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6849048536324461756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3797788066267406738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a8995cf891d03348ac580949fcf4a6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  so: {fileID: 11400000, guid: d06b5042f84d8a14c9392fee68228c25, type: 2}
+  spriteDefaut: {fileID: -1333898594, guid: 18424c6e525bb1d4cb36956c0ca2544c, type: 3}
+  spriteTakeDamage: {fileID: 802389812, guid: 18424c6e525bb1d4cb36956c0ca2544c, type: 3}
+  player: {fileID: 3797788066267406738}
 --- !u!1 &4624860070878091193
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,6 +150,10 @@ MonoBehaviour:
   unitLevel: 1
   damage: 20
   onFire: 0
+  Paralysis: 0
+  getturnp: 0
+  attack: 1
   maxHP: 25
   currentHP: 25
   armor: 25
+  getturnf: 0

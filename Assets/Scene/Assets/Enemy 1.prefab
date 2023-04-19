@@ -99,7 +99,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -119,6 +119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 180634394409126361}
   - component: {fileID: 8316425002834041462}
+  - component: {fileID: 3457528313630554352}
   m_Layer: 0
   m_Name: Dwayne
   m_TagString: Untagged
@@ -193,3 +194,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3457528313630554352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168245038657761369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcbb562eb30e9ad40837e28572aaaa7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  so: {fileID: 11400000, guid: d06b5042f84d8a14c9392fee68228c25, type: 2}
+  spriteAttack: {fileID: -1536315538, guid: 881ea5e9d5192ca4f9a37d98c34ca7f4, type: 3}
+  spriteDefaut: {fileID: 365605297, guid: 881ea5e9d5192ca4f9a37d98c34ca7f4, type: 3}
+  spriteTakeDamage: {fileID: 361607800, guid: 881ea5e9d5192ca4f9a37d98c34ca7f4, type: 3}
+  enemy: {fileID: 1168245038657761369}

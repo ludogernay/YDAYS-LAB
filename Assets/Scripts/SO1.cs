@@ -5,4 +5,8 @@ using UnityEngine;
 public class SO1 : ScriptableObject
 {
     public bool win;
+    public bool enemyattack;
+    public bool playerattack;
+    public bool playerHeal;
+    public bool enemyHeal;
 }

@@ -28,15 +28,14 @@ public class BattleSystem : MonoBehaviour
 
     public int attackfail = 0;
     public bool isDead = false;
-
-    
     // Start is called before the first frame update
     void Start()
     {
+        so.enemyattack = false;
+        so.playerattack = false;
         state = BattleState.START;
         StartCoroutine(SetupBattle());
     }
-
     IEnumerator SetupBattle()
     {
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
@@ -110,9 +109,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
-        GameObject obj = Instantiate(enemyPrefab);
-        Transform objTransform = obj.transform.Find("Dwayne");
-        objTransform.GetComponent<SpriteRenderer>().material.color = Color.red;
+        so.enemyattack = false;
         enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit, enemyUnit.onFire);
         Debug.Log("Debut du tour Joueur");
         attackfail = Random.Range(0, 100);//initialise une valeur entre 0 et 100 
@@ -130,21 +127,28 @@ public class BattleSystem : MonoBehaviour
                     enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
                     if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
                         playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
+                        so.playerHeal = true;
                         dialogueText.text = "Vous vous êtes soigné.";
-                    }else if (capacity == 3) {
+                    }else if (capacity == 3) {                        
+                        so.playerattack = true;
                         dialogueText.text = "Vous avez brulé l'ennemi";
-                    }else{
+                    }else{                       
+                        so.playerattack = true;
                         dialogueText.text = "Vous avez attaqué !";
                     }
                 }
             }else{
+                
                 enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
                 if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
                     playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
+                    so.playerHeal = true;
                     dialogueText.text = "Vous vous êtes  soigné.";
                 }else if (capacity == 3) {
+                    so.playerattack = true;
                     dialogueText.text = "Vous avez  brulé l'ennemi";
                 }else{
+                    so.playerattack = true;
                     dialogueText.text = "Vous avez attaqué !";
             }
         }
@@ -161,27 +165,35 @@ public class BattleSystem : MonoBehaviour
                 enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
                 if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
                     playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
+                    so.playerHeal = true;
                 dialogueText.text = "Vous vous êtes grandement soigné.";
                 }else if (capacity == 3) {
+                    so.playerattack = true;
                     dialogueText.text = "Vous avez grandement brulé l'ennemi";
                 }else{
+                    so.playerattack = true;
                     dialogueText.text = "Coup critique !";
                 }
-        }
+            }
         }else{
             enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
                 if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
                     playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
+                    so.playerHeal = true;
                 dialogueText.text = "Vous vous êtes grandement soigné.";
                 }else if (capacity == 3) {
+                    so.playerattack = true;
                     dialogueText.text = "Vous avez grandement brulé l'ennemi";
                 }else{
+                    so.playerattack = true;
                     dialogueText.text = "Coup critique !";
             }
         }
     }
         state = BattleState.TRAITEMENT;
         yield return new WaitForSeconds(1f);
+        so.playerattack = false;
+        so.playerHeal = false;
 
         bool isDeadFire = false;
         if (playerUnit.onFire == true && isDead == false) { //Mettre les ticks de l'attaque puis du feu
@@ -220,6 +232,8 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
+        so.playerattack = false;
+
         playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);
         Debug.Log("Debut du tour de l'ennemi ");
         int RandomCapacity = Random.Range(1, 6);
@@ -230,20 +244,25 @@ public class BattleSystem : MonoBehaviour
             isDead = playerUnit.TakeDamage(enemyUnit.damage,6, Tour, playerUnit, enemyUnit, state);
         }
         else if (attackfail > 10 && attackfail < 90){// fait réussir l'attaque normalement
+            
             dialogueText.text = enemyUnit.unitName + " attaque !";
-
+            so.enemyattack = true;
             if (enemyUnit.Paralysis){ // vérifie si l'ennemi est paralysé
                 if (enemyUnit.attack == false)// vérifie si l'ennemi a pu attaqué
                     dialogueText.text = enemyUnit.unitName + " est paralysée !";
-                else 
+                else {
+                    so.enemyattack = true;
                     dialogueText.text = enemyUnit.unitName + " est paralysée mais avez réussi a attaqué !";
+                }
             }
             else if (RandomCapacity == 4){
-            dialogueText.text = enemyUnit.unitName + " s'est soigné.";
-        }
+                so.enemyHeal = true;
+                dialogueText.text = enemyUnit.unitName + " s'est soigné.";
+            }
 
             yield return new WaitForSeconds(1f);
-
+            so.enemyattack = false;
+            so.enemyHeal = false;
             isDead = playerUnit.TakeDamage(enemyUnit.damage,RandomCapacity, Tour, playerUnit, enemyUnit, state);
 
             playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);//met a jour l'hud du joueur
@@ -254,12 +273,14 @@ public class BattleSystem : MonoBehaviour
             if (enemyUnit.Paralysis == true){ // vérifie si l'ennemi est paralysé
                 if (enemyUnit.attack == false)// vérifie si l'ennemi a pu attaqué
                     dialogueText.text = enemyUnit.unitName + " est paralysée !";
-                else 
+                else {
+                    so.enemyattack = true;
                     dialogueText.text = enemyUnit.unitName + " est paralysée mais avez réussi a faire un coup critique !";
+                }
             }
 
             yield return new WaitForSeconds(1f);
-
+            so.enemyattack = false;
             isDead = playerUnit.TakeDamage((enemyUnit.damage * 2),RandomCapacity, Tour, playerUnit, enemyUnit, state);
 
             playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);//met a jour l'hud du joueur
@@ -297,11 +318,6 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EndBattle()
     {
-        Transform childTransform =enemyPrefab.transform.Find("Dwayne");
-        SpriteRenderer spriteRenderer = childTransform.GetComponent<SpriteRenderer>();
-        // change la couleur de spriterenderer
-        spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
-
         if(state == BattleState.WON)
         {
             dialogueText.text = "Vous avez gagné la bataille !";
@@ -315,6 +331,10 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(3f);
             SceneManager.LoadScene("Move");
         }
+    }
+    IEnumerator ChangeSprite(){
+
+        yield return new WaitForSeconds(1f);
     }
 }
 
