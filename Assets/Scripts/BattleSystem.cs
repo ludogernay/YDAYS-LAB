@@ -113,8 +113,8 @@ public class BattleSystem : MonoBehaviour
         Transform spriteTransform = unit.transform.Find("sprite");
         SpriteRenderer spriteSpriteRenderer = spriteTransform.GetComponent<SpriteRenderer>();
 
-        // Debug.Log(spriteSpriteRenderer);
-        // Desssssssssssbug.Log("red");
+        Debug.Log(spriteSpriteRenderer);
+        Debug.Log("red");
 
         yield return new WaitForSeconds(2f);
         spriteSpriteRenderer.color = new Color(1f, 0f, 0f, 1f);
