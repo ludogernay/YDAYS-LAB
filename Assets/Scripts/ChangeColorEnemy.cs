@@ -17,6 +17,12 @@ public class ChangeColorEnemy : MonoBehaviour
             spriteEnemy.sprite = spriteDefaut;
         }else if(so.enemyattack){
             spriteEnemy.sprite = spriteAttack;
+        }else if(so.enemyIsBurn){
+            spriteEnemy.color = new Color(1f,0.5f,0f,1f);
+            spriteEnemy.sprite = spriteTakeDamage;
+        }else if(so.enemyIsPara){
+            spriteEnemy.color = Color.yellow;
+            spriteEnemy.sprite = spriteDefaut;
         }else{
             spriteEnemy.color = Color.white;
             spriteEnemy.sprite = spriteDefaut;

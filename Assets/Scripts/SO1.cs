@@ -9,4 +9,8 @@ public class SO1 : ScriptableObject
     public bool playerattack;
     public bool playerHeal;
     public bool enemyHeal;
+    public bool enemyIsPara;
+    public bool playerIsPara;
+    public bool enemyIsBurn;
+    public bool playerIsBurn;
 }

@@ -121,9 +121,10 @@ public class BattleSystem : MonoBehaviour
             isDead = enemyUnit.TakeDamage(playerUnit.damage, capacity, Tour, playerUnit, enemyUnit, state);
             
             if (playerUnit.Paralysis){ // vérifie si le joueur est paralysé
-                if (playerUnit.attack == false) // vérifie si le joueur a pu attaqué
+                if (playerUnit.attack == false){ // vérifie si le joueur a pu attaqué
+                    so.playerIsPara = true;
                     dialogueText.text = "Vous êtes paralysée !";
-                else{
+                }else{
                     enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
                     if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
                         playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
@@ -159,9 +160,10 @@ public class BattleSystem : MonoBehaviour
         isDead = enemyUnit.TakeDamage((playerUnit.damage * 2), capacity, Tour, playerUnit, enemyUnit, state);
         
         if (playerUnit.Paralysis){// vérifie si le joueur est paralysé
-            if (playerUnit.attack == false)// vérifie si le joueur a pu attaqué
+            if (playerUnit.attack == false){// vérifie si le joueur a pu attaqué
+                so.playerIsPara = true;
                 dialogueText.text = "Vous êtes paralysée !";
-            else{
+            }else{
                 enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);//met a jour l'hud de l'ennemi
                 if (capacity == 4){//permet de mettre a jour l'hud du joueur quand il se soigne
                     playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit,playerUnit.onFire);
@@ -192,12 +194,15 @@ public class BattleSystem : MonoBehaviour
     }
         state = BattleState.TRAITEMENT;
         yield return new WaitForSeconds(1f);
+        so.playerIsPara = false;
         so.playerattack = false;
         so.playerHeal = false;
 
         bool isDeadFire = false;
         if (playerUnit.onFire == true && isDead == false) { //Mettre les ticks de l'attaque puis du feu
+            so.playerIsBurn = true;
             yield return new WaitForSeconds(1f);
+            so.playerIsBurn = false;
             isDeadFire = playerUnit.IsOnFire(Tour);
             playerHUD.SetHP(playerUnit.currentHP, playerUnit.armor, playerUnit, playerUnit.onFire);
             dialogueText.text = "Vous êtes brulé !";
@@ -248,9 +253,10 @@ public class BattleSystem : MonoBehaviour
             dialogueText.text = enemyUnit.unitName + " attaque !";
             so.enemyattack = true;
             if (enemyUnit.Paralysis){ // vérifie si l'ennemi est paralysé
-                if (enemyUnit.attack == false)// vérifie si l'ennemi a pu attaqué
+                if (enemyUnit.attack == false){// vérifie si l'ennemi a pu attaqué
+                    so.enemyIsPara = true;
                     dialogueText.text = enemyUnit.unitName + " est paralysée !";
-                else {
+                }else {
                     so.enemyattack = true;
                     dialogueText.text = enemyUnit.unitName + " est paralysée mais avez réussi a attaqué !";
                 }
@@ -261,6 +267,7 @@ public class BattleSystem : MonoBehaviour
             }
 
             yield return new WaitForSeconds(1f);
+            so.enemyIsPara = false;
             so.enemyattack = false;
             so.enemyHeal = false;
             isDead = playerUnit.TakeDamage(enemyUnit.damage,RandomCapacity, Tour, playerUnit, enemyUnit, state);
@@ -271,15 +278,17 @@ public class BattleSystem : MonoBehaviour
                 dialogueText.text = enemyUnit.unitName + " a fait un coup critique !";
 
             if (enemyUnit.Paralysis == true){ // vérifie si l'ennemi est paralysé
-                if (enemyUnit.attack == false)// vérifie si l'ennemi a pu attaqué
+                if (enemyUnit.attack == false){// vérifie si l'ennemi a pu attaqué
+                    so.enemyIsPara = true;
                     dialogueText.text = enemyUnit.unitName + " est paralysée !";
-                else {
+                }else {
                     so.enemyattack = true;
                     dialogueText.text = enemyUnit.unitName + " est paralysée mais avez réussi a faire un coup critique !";
                 }
             }
 
             yield return new WaitForSeconds(1f);
+            so.enemyIsPara = false;
             so.enemyattack = false;
             isDead = playerUnit.TakeDamage((enemyUnit.damage * 2),RandomCapacity, Tour, playerUnit, enemyUnit, state);
 
@@ -290,7 +299,9 @@ public class BattleSystem : MonoBehaviour
 
         bool isDeadFire = false;
         if (enemyUnit.onFire == true && isDead == false) { //Mettre les ticks de l'attaque puis du feu
+            so.enemyIsBurn = true;
             yield return new WaitForSeconds(1f);
+            so.enemyIsBurn = false;
             isDeadFire = enemyUnit.IsOnFire(Tour);
             enemyHUD.SetHP(enemyUnit.currentHP, enemyUnit.armor, enemyUnit,enemyUnit.onFire);
             dialogueText.text = enemyUnit.unitName + " est brulé";
