@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -10,13 +11,18 @@ public class PauseMenu : MonoBehaviour
     public GameObject sonUI;
     public GameObject ParametreUI;
     public GameObject LanguageUI;
+    public TextMeshProUGUI textMeshPro;
 
     public GameObject Cube_O;
     public GameObject Cube_E;
     public GameObject Cube_C;
+
+    public SO1 so;
     
 
     public static bool gamepause = false;
+    public static bool inv = false;
+    public static bool param = false;
     public static bool son = true;
     public AudioSource audioSource;
 
@@ -27,16 +33,25 @@ public class PauseMenu : MonoBehaviour
     {
        if(Input.GetKeyDown(KeyCode.Escape))
        {
-            if(gamepause)
+           if (inv || param)
             {
-                Resume(); 
-            }
-            else
-            {
-                Paused();
+                Masquer_Inventaire();
+                Masquer_Parametre();
+            }else{
+
+                if (gamepause)
+                {
+                    Resume();
+                    gamepause = false;
+                }
+                else
+                {
+                    Paused();
+                    gamepause = true;
+                }
             }
 
-        }
+       }
     }
 
     public void Paused()
@@ -65,21 +80,54 @@ public class PauseMenu : MonoBehaviour
     public void Aff_Inventaire()
     {
         InventaireUI.SetActive(true);
+        inv = true;
     }
+
+    public IEnumerator AffSec()
+    {
+        textMeshPro.gameObject.SetActive(true);
+        float pauseStartTime = Time.realtimeSinceStartup;
+        bool hasWaitedForTwoSeconds = false;
+        while (!hasWaitedForTwoSeconds)
+        {
+            if (Time.timeScale == 0)
+            {
+                if (Time.realtimeSinceStartup - pauseStartTime >= 2f)
+                {
+                    hasWaitedForTwoSeconds = true;
+                }
+            }
+            else
+            {
+                hasWaitedForTwoSeconds = true;
+            }
+            yield return null;
+        }
+        textMeshPro.gameObject.SetActive(false);
+    }
+
 
     public void Masquer_Inventaire()
     {
-        InventaireUI.SetActive(false);
+        if(so.liste.Count < 4){
+            InventaireUI.SetActive(true);
+            StartCoroutine(AffSec());
+        }else{
+            InventaireUI.SetActive(false);
+            inv = false;
+        }   
     }
 
     public void Aff_Parametre()
     {
         ParametreUI.SetActive(true);
+        param = true;
     }
 
     public void Masquer_Parametre()
     {
         ParametreUI.SetActive(false);
+        param = false;
     }
 
     public void Aff_Language()

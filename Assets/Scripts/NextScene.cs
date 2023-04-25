@@ -12,7 +12,6 @@ public class NextScene : MonoBehaviour
     public float transitionTime = 1f; // variable du temps de transition
     
     public void NxtScene(){ // Charge la scène suivante dans l'index avec les transitions
-
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex+1));
     }
     public void NxtSceneMove(){ // charge la scène "Move"

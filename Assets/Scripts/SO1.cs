@@ -5,4 +5,5 @@ using UnityEngine;
 public class SO1 : ScriptableObject
 {
     public bool win;
+    public List<int> liste = new List<int>(){1,2,3,4};
 }

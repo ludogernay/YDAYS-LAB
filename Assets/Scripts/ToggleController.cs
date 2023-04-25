@@ -5,16 +5,19 @@ using UnityEngine.UI;
 public class ToggleController : MonoBehaviour
 {
     public Toggle[] toggles;
+    public SO1 so;
+    int i;
 
     private int maxSelected = 4;
-    private int selectedCount = 0;
+    private int selectedCount = 4;
 
     public void OnToggleSelected(int num)
+    {  
 
-    {
-        Debug.Log(toggles[num].isOn);
-        if (toggles[num].isOn)
+        Debug.Log(so.liste);
+        if (toggles[num-1].isOn)
         {
+            so.liste.Add(num);
             selectedCount++;
             
             if (selectedCount > maxSelected)
@@ -22,13 +25,15 @@ public class ToggleController : MonoBehaviour
                 // Si on a sélectionné plus de toogles que le maximum autorisé, on déselectionne le dernier toogle sélectionné
                 Toggle lastSelectedToggle = GetLastSelectedToggle();
                 lastSelectedToggle.isOn = false;
+                selectedCount--;
 
                 // On affiche un message d'erreur
                 Debug.LogError("Vous ne pouvez sélectionner que " + maxSelected + " toogles maximum !");
             }
         }
         else
-        {
+        {   
+            so.liste.Remove(num);
             selectedCount--;
         }
     }
