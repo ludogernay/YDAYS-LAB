@@ -98,7 +98,6 @@ public class Unit : MonoBehaviour
                 playerUnit.Paralysis = true;
                 Debug.Log("Paralyse -> YOU");
             }
-                currentHP -= 3;
         }
 
         if (capacity == 6){}// Capacité pour les attaques ratés (augmenter la valeur quand on ajoutes des compétances)
