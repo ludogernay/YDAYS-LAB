@@ -3274,7 +3274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 4624860070878091193, guid: 10021f1ffb851ee42a2f9e2ce33428b7, type: 3}
-  enemyPrefab: {fileID: 514230981364995875, guid: b4bcf20189f767f4c9e2633eea3295b2, type: 3}
+  Ennemi: {fileID: 11400000, guid: bdec95ab6673e604eaa5758490f664e0, type: 2}
   playerBattleStation: {fileID: 1714921347}
   enemyBattleStation: {fileID: 401425951}
   dialogueText: {fileID: 974878099}

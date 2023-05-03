@@ -10,7 +10,7 @@ public enum BattleState { START, PLAYERTURN, TRAITEMENT, ENEMYTURN, WON, LOST }
 public class BattleSystem : MonoBehaviour
 {
     public GameObject playerPrefab;
-    public GameObject enemyPrefab;
+    public SOEnnemi Ennemi;
 
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
@@ -43,7 +43,7 @@ public class BattleSystem : MonoBehaviour
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
         playerUnit = playerGO.GetComponent<Unit>();
 
-        GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
+        GameObject enemyGO = Instantiate(Ennemi.Ennemi, enemyBattleStation);
         enemyUnit = enemyGO.GetComponent<Unit>();
 
         dialogueText.text = "Une " + enemyUnit.unitName + " sauvage approche...";

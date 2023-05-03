@@ -248,9 +248,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Object: {fileID: 2059783620}
-  Object2: {fileID: 269278500}
-  sprite: {fileID: -1286162488, guid: 881ea5e9d5192ca4f9a37d98c34ca7f4, type: 3}
-  so: {fileID: 11400000, guid: d06b5042f84d8a14c9392fee68228c25, type: 2}
+  Unit: {fileID: 514230981364995875, guid: b4bcf20189f767f4c9e2633eea3295b2, type: 3}
+  Ennemi: {fileID: 11400000, guid: bdec95ab6673e604eaa5758490f664e0, type: 2}
 --- !u!1 &833882878
 GameObject:
   m_ObjectHideFlags: 0
@@ -1372,7 +1371,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412774455}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.38, y: 1.1458, z: 0}
+  m_LocalPosition: {x: -6.81, y: -0.79, z: 0}
   m_LocalScale: {x: 1.2084898, y: 7.5401225, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1412,6 +1411,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 908939194397098556, guid: c66d48963a6f93d4994043b7bbe50a14, type: 3}
+      propertyPath: Ennemi
+      value: 
+      objectReference: {fileID: 11400000, guid: bdec95ab6673e604eaa5758490f664e0, type: 2}
     - target: {fileID: 7941828876491500229, guid: c66d48963a6f93d4994043b7bbe50a14, type: 3}
       propertyPath: m_Name
       value: LevelLoader
@@ -1956,4 +1959,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transition: {fileID: 1549656324}
+  Ennemi: {fileID: 0}
   transitionTime: 1

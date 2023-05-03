@@ -7,6 +7,7 @@ public class NextScene : MonoBehaviour
 {
 
     public Animator transition; //récupère l'animator choisi
+    public SOEnnemi Ennemi;
     
 
     public float transitionTime = 1f; // variable du temps de transition
