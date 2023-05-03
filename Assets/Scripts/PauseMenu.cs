@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
     public GameObject InventaireUI;
-    public GameObject sonUI;
     public GameObject ParametreUI;
-    public GameObject LanguageUI;
+    // public Dropdown DResolution;
+    public TMP_Dropdown res;
+    public Slider VolumeSlider;
+    public TextMeshProUGUI Volume;
     public TextMeshProUGUI textMeshPro;
 
     public GameObject Cube_O;
@@ -23,7 +26,6 @@ public class PauseMenu : MonoBehaviour
     public static bool gamepause = false;
     public static bool inv = false;
     public static bool param = false;
-    public static bool son = true;
     public AudioSource audioSource;
 
 
@@ -130,25 +132,24 @@ public class PauseMenu : MonoBehaviour
         param = false;
     }
 
-    public void Aff_Language()
-    {
-        LanguageUI.SetActive(true);
-    }
-
-    public void Masquer_Language()
-    {
-        LanguageUI.SetActive(false);
-    }
     public void sons()
     {
-       if (son == true){
-            audioSource.Pause();
-            sonUI.SetActive(false);
-            son = false;
-        }else{
-            audioSource.Play();
-            sonUI.SetActive(true);
-            son = true;
+       audioSource.volume = VolumeSlider.value;
+       Volume.text = "Volume  " + (audioSource.volume * 100).ToString("00") + "%";
+    }
+
+    public void SetResolution()
+    {
+        switch(res.value)
+        {
+            case 0:
+                Screen.SetResolution(1920, 1080, true);
+                break;
+
+            case 1:
+                Debug.Log("non");
+                Screen.SetResolution(640, 360, true);
+                break;
         }
     }
 
