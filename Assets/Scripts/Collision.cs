@@ -9,6 +9,7 @@ public class Collision : MonoBehaviour
     public GameObject Object;
     public GameObject Object2;
     public Sprite sprite;
+    private SpriteRenderer spriteRenderer;
     public SO1 so;
     private bool beat = true;
 
@@ -20,6 +21,7 @@ public class Collision : MonoBehaviour
             //Lorsque le joueur gagne, on desactive le bouton
             Object.SetActive(false);
         }
+        spriteRenderer = GetComponent<SpriteRenderer>(); 
     }
     public void OnCollisionEnter2D()
     {
@@ -29,4 +31,13 @@ public class Collision : MonoBehaviour
     {
         Object.SetActive(false);
     }
+    
+    public void Update() {
+        if (so.win)
+        {
+            spriteRenderer.color = new Color (1, 0, 0, 1); 
+        }
+    }
 }
+
+    

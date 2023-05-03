@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 199410765}
   - component: {fileID: 199410764}
   m_Layer: 5
-  m_Name: APAttack
+  m_Name: Btn3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -320,9 +320,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1505888340}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
-        m_MethodName: OnAPAttackButton
+        m_MethodName: SetupBouton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -935,7 +935,7 @@ GameObject:
   - component: {fileID: 538501165}
   - component: {fileID: 538501164}
   m_Layer: 5
-  m_Name: FireAttack
+  m_Name: Btn4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1005,19 +1005,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 538501165}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1505888340}
-        m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
-        m_MethodName: OnFireAttackButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &538501165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2614,7 +2602,7 @@ GameObject:
   - component: {fileID: 1256161667}
   - component: {fileID: 1256161666}
   m_Layer: 5
-  m_Name: HealBtn
+  m_Name: Btn2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2685,9 +2673,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1505888340}
+      - m_Target: {fileID: 1505888342}
         m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
-        m_MethodName: OnHealButton
+        m_MethodName: SetupBouton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2983,7 +2971,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1505888341}
-  - component: {fileID: 1505888340}
+  - component: {fileID: 1505888342}
   m_Layer: 5
   m_Name: Battle System
   m_TagString: Untagged
@@ -2991,7 +2979,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1505888340
+--- !u!4 &1505888341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505888339}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 435.12512, y: 215.12192, z: -3.569209}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1505888342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3008,6 +3011,10 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: d06b5042f84d8a14c9392fee68228c25, type: 2}
   playerBattleStation: {fileID: 1714921347}
   enemyBattleStation: {fileID: 401425951}
+  Btn1: {fileID: 1880664336}
+  Btn2: {fileID: 1256161664}
+  Btn3: {fileID: 199410762}
+  Btn4: {fileID: 538501162}
   dialogueText: {fileID: 974878099}
   playerHUD: {fileID: 1059841265}
   enemyHUD: {fileID: 1166555247}
@@ -3016,21 +3023,6 @@ MonoBehaviour:
   capacity: 0
   attackfail: 0
   isDead: 0
---- !u!4 &1505888341
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1505888339}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 435.12512, y: 215.12192, z: -3.569209}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1546963828
 GameObject:
   m_ObjectHideFlags: 0
@@ -3814,7 +3806,7 @@ GameObject:
   - component: {fileID: 1880664339}
   - component: {fileID: 1880664338}
   m_Layer: 5
-  m_Name: AttackBtn
+  m_Name: Btn1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3885,9 +3877,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1505888340}
+      - m_Target: {fileID: 1505888342}
         m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
-        m_MethodName: OnAttackButton
+        m_MethodName: SetupBouton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

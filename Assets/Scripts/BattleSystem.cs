@@ -14,6 +14,24 @@ public class BattleSystem : MonoBehaviour
     public SO1 so;
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
+
+    public GameObject Btn1;
+    public GameObject Btn2;
+    public GameObject Btn3;
+    public GameObject Btn4;
+
+    public Dictionary<int, string> dico_translate = new Dictionary<int, string>()
+    {
+        {1, "Attack Button"},
+        {2, "Armor Attack"},
+        {3, "Fire Attack"},
+        {4, "Heal"},
+        {5, "Lightning Attack"},
+        {6, ""},
+        {7, ""},
+        {8, ""}
+    };
+
     Unit playerUnit;
     Unit enemyUnit;
 
@@ -33,9 +51,17 @@ public class BattleSystem : MonoBehaviour
     {
         so.enemyattack = false;
         so.playerattack = false;
+        Btn1.GetComponent<Button>().onClick.AddListener(delegate { OnHealButton(); });
         state = BattleState.START;
         StartCoroutine(SetupBattle());
+        
     }
+
+    void Update() {
+        SetupBouton();
+    }
+
+
     IEnumerator SetupBattle()
     {
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
@@ -53,6 +79,51 @@ public class BattleSystem : MonoBehaviour
         Tour = 0;
         state = BattleState.PLAYERTURN;
         PlayerTurn();
+    }
+
+    public void SetupBouton(){
+        Btn1.GetComponentInChildren<TextMeshProUGUI>().text = dico_translate[so.liste[0]];
+        Btn2.GetComponentInChildren<TextMeshProUGUI>().text = dico_translate[so.liste[1]];
+        Btn3.GetComponentInChildren<TextMeshProUGUI>().text = dico_translate[so.liste[2]];
+        Btn4.GetComponentInChildren<TextMeshProUGUI>().text = dico_translate[so.liste[3]];
+
+        Btn1.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+        Btn2.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+        Btn3.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+        Btn4.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+
+        GameObject[] l = {Btn1,Btn2,Btn3,Btn4};
+        int i = 0;
+        foreach (GameObject btn in l)
+        {   
+            switch (so.liste[i]) {
+                case 1:
+                    btn.GetComponent<Button>().onClick.AddListener(delegate { OnAttackButton(); });
+                    break;
+                case 2:
+                    btn.GetComponent<Button>().onClick.AddListener(delegate { OnAPAttackButton(); });
+                    break;
+                case 3:
+                    btn.GetComponent<Button>().onClick.AddListener(delegate { OnFireAttackButton(); });
+                    break;
+                case 4:
+                    btn.GetComponent<Button>().onClick.AddListener(delegate { OnHealButton(); });
+                    break;
+                case 5:
+                    btn.GetComponent<Button>().onClick.AddListener(delegate { OnParalysisButton(); });
+                    break;
+                case 6:
+                    btn.GetComponent<Button>().onClick.AddListener(delegate { OnAttackButton(); });
+                    break;
+                case 7:
+                    btn.GetComponent<Button>().onClick.AddListener(delegate { OnAttackButton(); });
+                    break;
+                case 8:
+                    btn.GetComponent<Button>().onClick.AddListener(delegate { OnAttackButton(); });
+                    break;  
+            }
+            i++;
+        }
     }
 
     void PlayerTurn()

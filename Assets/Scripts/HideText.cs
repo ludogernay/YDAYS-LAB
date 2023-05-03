@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HideText : MonoBehaviour
 {
     public GameObject Object;
+
     void Start()
     {
         Object.SetActive(false);

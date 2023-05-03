@@ -13,4 +13,5 @@ public class SO1 : ScriptableObject
     public bool playerIsPara;
     public bool enemyIsBurn;
     public bool playerIsBurn;
+    public List<int> liste = new List<int>(){1,2,3,4};
 }
